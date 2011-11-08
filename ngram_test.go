@@ -1,6 +1,7 @@
 package nlp
 
 import "testing"
+import "fmt"
 
 func compare(t *testing.T, expected, actual interface{}) {
 	switch tp := expected.(type) {
@@ -23,3 +24,4 @@ func TestNgramNew(t *testing.T) {
 	ngram := NewNGram("Hello","World")
 	compare(t, "Hello/World", string(ngram))
 }
+
