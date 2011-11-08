@@ -1,7 +1,6 @@
 package nlp
 
 import "testing"
-import "fmt"
 
 func compare(t *testing.T, expected, actual interface{}) {
 	switch tp := expected.(type) {
