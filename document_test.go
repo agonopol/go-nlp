@@ -15,5 +15,4 @@ func TestTokenize(t * testing.T) {
 		fmt.Printf("[%v]-[%v]\n", ngram, count)
 	}
 	
-	
 }
