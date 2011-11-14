@@ -1,6 +1,8 @@
 package nlp
 
 import "testing"
+import "math"
+
 
 func compare(t *testing.T, expected, actual interface{}) {
 	switch tp := expected.(type) {
@@ -10,7 +12,13 @@ func compare(t *testing.T, expected, actual interface{}) {
 			compare(t, len(ea), len(aa))
 			for i := range ea {
 				compare(t, ea[i], aa[i])
-			}			
+			}
+		case float64:
+			ef := expected.(float64)
+			af := actual.(float64)
+			if math.Fabs(ef - af) > .001 {
+				t.Errorf("value differs. Expected [%v], actual [%v]", expected, actual)
+			}
 		default:
 			if expected != actual {
 				t.Errorf("value differs. Expected [%v], actual [%v]", expected, actual)

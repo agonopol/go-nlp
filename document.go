@@ -5,7 +5,6 @@ import "bytes"
 import "stemmer"
 import "unicode"
 
-
 type Document struct {
 	occurances map[NGram]int
 }
@@ -54,14 +53,14 @@ func (this *Document) tokenize(sentance []byte) <- chan NGram {
 }
 
 
-func (this *Document) Distnace(other * Document) float64 {
+func (this *Document) Similarity(other * Document) float64 {
 	similarity := 0
 	total := 0
 	for ngram,count := range this.occurances {
 		if match, found :=  other.occurances[ngram]; found {
 			similarity += min(count, match)
-			total += count
 		}
+		total += count
 	}
 	for _,count := range other.occurances {
 		total+= count
