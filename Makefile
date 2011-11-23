@@ -6,5 +6,6 @@ GOFILES=\
 	utils.go \
 	document.go \
 	stoplist.go \
+	html.go \
 
 include $(GOROOT)/src/Make.pkg

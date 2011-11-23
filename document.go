@@ -4,9 +4,23 @@ import "bufio"
 import "bytes"
 import "stemmer"
 import "unicode"
+import "http"
+import "os"
 
 type Document struct {
 	occurances map[NGram]int
+}
+
+func FromUrl(url string) (*Document, os.Error) {
+	res, err := http.DefaultClient.Get(url)
+	if err != nil {
+		panic(err)
+	}
+	html, err := NewHTMLScrubbedReader(res.Body)
+	if err != nil {
+		return nil, err
+	}
+	return NewDocument(bufio.NewReader(html)), nil
 }
 
 func NewDocument(in *bufio.Reader) *Document {
@@ -23,7 +37,7 @@ func NewDocument(in *bufio.Reader) *Document {
 }
 
 func notletter(rune int) bool {
-	return !unicode.IsLetter(rune)
+	return !(unicode.IsLetter(rune) || rune == int('-'))
 } 
 
 func firstToken( tokens [][]byte) (string,int) {
@@ -35,9 +49,10 @@ func firstToken( tokens [][]byte) (string,int) {
 	}
 	return "", len(tokens)
 }
+
 func (this *Document) tokenize(sentance []byte) <- chan NGram {
 	c := make(chan NGram)
-	tokens := bytes.Split(sentance, []byte{' '})
+	tokens := SplitFunc(sentance, notletter)
 	go func() {
 		first,i := firstToken(tokens)	
 		for j:=i+1;j<len(tokens); j++{

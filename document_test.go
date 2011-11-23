@@ -3,6 +3,7 @@ package nlp
 import "testing"
 import "bufio"
 import "bytes"
+// import "fmt"
 
 
 func TestTokenize(t * testing.T) {
@@ -33,5 +34,13 @@ func TestSimilarityDiffDoc(t * testing.T) {
 	buf = bytes.NewBufferString(diff)
 	r = bufio.NewReader(buf)
 	same := NewDocument(r)
-	compare(t, float64(.97), doc.Similarity(same))
+	compare(t, float64(0.9677), doc.Similarity(same))
+}
+
+func TestFromUrl(t *testing.T) {
+	FromUrl("http://localhost:6060/pkg/http/")
+	// doc,_ := FromUrl("http://localhost:6060/pkg/http/")
+	// for ngram, count := range doc.occurances {
+		// fmt.Printf("[%v] -> %d\n", ngram, count)
+	// }
 }
